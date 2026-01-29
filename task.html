@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FocusGrid - Dark Ocean</title>
+    <!-- Link to local CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Link to local Chart.js library -->
+    <script src="js/chart.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h2>FOCUS GRID</h2>
+        <div class="nav-controls">
+            <button class="secondary" id="btnPrev">&lt; Prev</button>
+            <span id="lblWeek" style="min-width: 180px; text-align: center; font-weight: bold;"></span>
+            <button class="secondary" id="btnNext">Next &gt;</button>
+            <div style="width: 20px;"></div>
+            <button id="btnManage">⚙ Manage Tasks</button>
+        </div>
+    </div>
+
+    <div class="table-wrapper">
+        <table id="mainTable">
+            <thead><tr id="tableHeader"></tr></thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+
+    <div class="charts-grid">
+        <div class="chart-card">
+            <canvas id="scoreChart"></canvas>
+        </div>
+        <div class="chart-card">
+            <canvas id="timeChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- CONFIG MODAL -->
+<div id="configModal" class="modal-overlay">
+    <div class="modal-content">
+        <h3 style="color: var(--ocean-cyan); margin-top: 0;">Task Manager</h3>
+
+        <div id="taskListContainer" style="margin-bottom: 20px; max-height: 300px; overflow-y: auto;"></div>
+
+        <button id="btnAdd" style="width: 100%; margin-bottom: 15px;">+ Add New Task</button>
+
+        <div id="taskForm" style="display:none; border-top: 1px solid var(--border); padding-top: 15px;">
+            <h4 id="formTitle">Add/Edit Task</h4>
+            <input type="hidden" id="editIndex">
+
+            <!-- BASIC INFO -->
+            <div class="edit-form-grid">
+                <div>
+                    <label>Task Name</label>
+                    <input type="text" id="inpName" style="width: 100%;">
+                </div>
+                <div>
+                    <label>Weight (Points)</label>
+                    <input type="number" id="inpWeight" value="10" style="width: 100%;">
+                </div>
+                <div>
+                    <label>Type</label>
+                    <select id="inpType" style="width: 100%;">
+                        <option value="bool">Checkbox (Yes/No)</option>
+                        <option value="time">Time Input (24h)</option>
+                        <option value="score">Manual Score (0-100)</option>
+                    </select>
+                </div>
+                <div id="timeFields" style="display:none;">
+                    <label>Target Time (HH:MM)</label>
+                    <!-- Added lang="en-GB" for 24h format and color-scheme for icon visibility -->
+                    <input type="time" id="inpTarget" style="width: 100%; color-scheme: dark;" lang="en-GB">
+                    <label style="margin-top:5px">Condition</label>
+                    <select id="inpCondition" style="width: 100%;">
+                        <option value="before">Before Target</option>
+                        <option value="after">After Target</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- SCHEDULING SECTION -->
+            <div style="margin-bottom: 15px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; border: 1px solid var(--border);">
+                <label style="color: var(--ocean-cyan); margin-bottom: 8px;">Schedule Settings</label>
+
+                <div style="display:flex; gap: 20px; margin-bottom: 15px;">
+                    <label style="cursor:pointer; display:flex; align-items:center; gap:5px;">
+                        <input type="radio" name="freqType" id="radioRepeat" value="repeat" checked> Repeating
+                    </label>
+                    <label style="cursor:pointer; display:flex; align-items:center; gap:5px;">
+                        <input type="radio" name="freqType" id="radioOnce" value="once"> One-time
+                    </label>
+                </div>
+
+                <!-- DATE RANGES -->
+                <div id="divRepeatDates" style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:15px;">
+                    <!-- Added color-scheme for white icons -->
+                    <div><label>Start Date</label><input type="date" id="inpStartDate" style="width:100%; color-scheme: dark;"></div>
+                    <div><label>End Date</label><input type="date" id="inpEndDate" style="width:100%; color-scheme: dark;"></div>
+                </div>
+
+                <div id="divOnceDate" style="display:none; margin-bottom:15px;">
+                    <label>Specific Date</label><input type="date" id="inpSpecificDate" style="width:100%; color-scheme: dark;">
+                </div>
+
+                <!-- DAYS OF WEEK -->
+                <div id="divDaysSelector">
+                    <label>Repeat On</label>
+                    <div class="day-selector">
+                        <label><input type="checkbox" class="day-chk" value="Mon"> Mon</label>
+                        <label><input type="checkbox" class="day-chk" value="Tue"> Tue</label>
+                        <label><input type="checkbox" class="day-chk" value="Wed"> Wed</label>
+                        <label><input type="checkbox" class="day-chk" value="Thu"> Thu</label>
+                        <label><input type="checkbox" class="day-chk" value="Fri"> Fri</label>
+                        <label><input type="checkbox" class="day-chk" value="Sat"> Sat</label>
+                        <label><input type="checkbox" class="day-chk" value="Sun"> Sun</label>
+                    </div>
+                    <button class="secondary" id="btnAllDays" style="font-size: 0.7rem; margin-top: 5px; padding: 2px 8px;">Select All</button>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="secondary" id="btnCancelForm">Cancel</button>
+                <button id="btnSaveTask">Save Task</button>
+            </div>
+        </div>
+
+        <div class="modal-actions" id="mainModalActions">
+            <button class="secondary" id="btnCloseModal">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- Link to local JS -->
+<script src="js/script.js"></script>
+</body>
+</html>

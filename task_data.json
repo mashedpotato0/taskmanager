@@ -1,0 +1,32 @@
+{
+    "2026-01-19": {
+        "Jog": true,
+        "Breakfast": true,
+        "Wake up time": "7:00",
+        "Sleep at 10.30": "23:00"
+    },
+    "2026-01-20": {
+        "Jog": true,
+        "Breakfast": true,
+        "Bath": true,
+        "Classes": true,
+        "Study (Evening)": true,
+        "Gym": true,
+        "Lunch": true,
+        "Study (Afternoon)": true
+    },
+    "2026-01-29": {
+        "Bath": true,
+        "Gym": true
+    },
+    "2026-01-28": {
+        "Lunch": true,
+        "Gym": true
+    },
+    "2026-01-30": {
+        "Gym": true
+    },
+    "2026-01-31": {
+        "Gym": true
+    }
+}
