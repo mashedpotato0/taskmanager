@@ -6,6 +6,12 @@ __pycache__/
 # C extensions
 *.so
 
+
+task.py
+server.py
+local.py
+*.json
+
 # Distribution / packaging
 .Python
 build/
